@@ -1,0 +1,16 @@
+package com.example.movie_app.data.mappers
+
+import com.example.movie_app.data.remote.dto.MovieDto
+import com.example.movie_app.domain.models.Movie
+
+fun mapMovie(dto: MovieDto): Movie{
+    return Movie(
+        id = dto.id,
+        title = dto.title,
+        overview = dto.overview,
+        imageUrl = "https://image.tmdb.org/t/p/w500${dto.imagePath}",
+        //todo можна доробити логіку, аби ше було число і місяць
+        date = dto.date.take(4),
+        rating = dto.rating
+    )
+}

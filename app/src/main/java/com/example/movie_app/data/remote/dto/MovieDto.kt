@@ -12,4 +12,5 @@ data class MovieDto(
     @SerialName("poster_path") val imagePath: String,
     @SerialName("release_date") val date: String,
     @SerialName("vote_average") val rating: Double
+    //todo як буде час, то треба додати ше поле типу List із жанрами
 )

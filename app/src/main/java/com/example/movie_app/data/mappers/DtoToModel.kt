@@ -1,10 +1,10 @@
 package com.example.movie_app.data.mappers
 
 import com.example.movie_app.data.remote.dto.MovieDto
-import com.example.movie_app.domain.models.Movie
+import com.example.movie_app.domain.models.MovieModel
 
-fun mapMovie(dto: MovieDto): Movie{
-    return Movie(
+fun mapMovie(dto: MovieDto): MovieModel{
+    return MovieModel(
         id = dto.id,
         title = dto.title,
         overview = dto.overview,

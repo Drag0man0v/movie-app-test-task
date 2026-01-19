@@ -8,7 +8,7 @@ fun mapMovie(dto: MovieDto): MovieModel{
         id = dto.id,
         title = dto.title,
         overview = dto.overview,
-        imageUrl = "https://image.tmdb.org/t/p/w500${dto.imagePath}",
+        imageUrl = "https://image.tmdb.org/t/p/w500${dto.imagePath?: ""}",
         //todo можна доробити логіку, аби ше було число і місяць
         date = dto.date.take(4),
         rating = dto.rating

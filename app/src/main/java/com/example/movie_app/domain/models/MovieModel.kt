@@ -4,7 +4,7 @@ data class MovieModel(
     val id: Int,
     val title: String,
     val overview: String,
-    val imageUrl: String,
+    val imageUrl: String?,
     val date: String,
     val rating: Double
 )

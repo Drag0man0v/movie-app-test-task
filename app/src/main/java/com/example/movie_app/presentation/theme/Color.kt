@@ -13,7 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val LightBack = Color(0xFFEBF0EC)
 val TextForLight = Color(0xFF202022)
-val LightSurface = Color(0xFFBBBBBB)
+val LightSurface = Color(0xFFEBF0F5)
 
 val DarkBack = Color(0xFF202022)
 val TextForDark = Color(0xFFEBF0EC)

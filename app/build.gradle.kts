@@ -24,11 +24,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        //шоб прочитати наш api ключ, то мусимо описати отаку конструкцію
+        //to read our API key, we need to set up this construction
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
 
-        //у класі BuildConfig під час збірки проєкту буде створене необхідне нам поле
+        //in the buildConfig the necessary field will be created during project build
         buildConfigField("String","API_KEY","\"${properties.getProperty("API_KEY")}\"")
     }
 

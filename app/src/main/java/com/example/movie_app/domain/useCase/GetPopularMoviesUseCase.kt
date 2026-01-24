@@ -5,7 +5,7 @@ import com.example.movie_app.domain.repositoryIntf.MovieRepository
 import javax.inject.Inject
 
 class GetPopularMoviesUseCase @Inject constructor(private val repository: MovieRepository) {
-    //operator fun invoke -> можемо викликати екземпляр класу як функцію
+    //"operator fun invoke" allows calling the class instance like a function
     suspend operator fun invoke(page: Int = 1): List<MovieModel> {
         return repository.getMovies(page)
     }

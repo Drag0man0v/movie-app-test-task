@@ -3,7 +3,7 @@ package com.example.movie_app.data.remote.dto
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-//як респонз нам повертається обєкт, який містить поля і список result, у якому якраз є об'єкти MovieDto
+// the response returns an object containing fields and a list called result, which contains MovieDto objects
 @Serializable
 data class MoviesResponseDto(
     @SerialName("page") val page: Int,

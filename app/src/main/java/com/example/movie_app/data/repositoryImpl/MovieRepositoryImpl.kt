@@ -9,9 +9,9 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(private val api: MovieApi): MovieRepository
 {
     override suspend fun getMovies(page: Int): List<MovieModel> {
-        val resultOfRequest = api.getMovies(page)//наш респонз у форматі MoviesResponseDto
-        val listOfDto = resultOfRequest.results//вибираємо з нього тільки інформацію про наші фільми
-        val result = listOfDto.map{mapMovie(it)}//перетворюємо з dto у клас Domain рівня з яким вже і будемо працювати
+        val resultOfRequest = api.getMovies(page) //our response in the format MoviesResponseDto
+        val listOfDto = resultOfRequest.results //select only the information about our movies
+        val result = listOfDto.map { mapMovie(it) } //convert from DTO to Domain class that we will work with
         return result
     }
 

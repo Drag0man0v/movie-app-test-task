@@ -15,29 +15,30 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) : ViewModel(){
-    private val _state = MutableStateFlow(MainState())//локальний, який можемо змінювати
-    val state: StateFlow<MainState> = _state.asStateFlow()//для screen(глобальний), не годні міняти
+    private val _state = MutableStateFlow(MainState())//local state that we can modify
+    val state: StateFlow<MainState> = _state.asStateFlow()//for the screen (global), cannot modify
 
-    //викличеться при створенні обєкту класу VM
+    //called when the ViewModel object is created
     init {
         loadNextPage()
     }
 
     fun loadNextPage() {
         val currentState = _state.value
-        //якшо вже грузимо або вже всьо показали шо було на сервері і нема куда - виходимо з функції
+
+        //if already loading or reached the end of server data, exit function
         if (currentState.isLoading || currentState.end) return
 
-        //запускаємо корутину і оновлюємо state
+        //launch a coroutine and update the state
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
             try {
-                // Просимо сторінку, яка записана у нас в State
+                //request the page stored in the state
                 val newMovies = getPopularMoviesUseCase(currentState.page)
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        // Якщо список прийшов порожній -> значить це кінець (endReached = true)
+                        //if the list is empty -> this is the end (end = true)
                         end = newMovies.isEmpty(),
                         movies = it.movies + newMovies,
                         page = it.page + 1

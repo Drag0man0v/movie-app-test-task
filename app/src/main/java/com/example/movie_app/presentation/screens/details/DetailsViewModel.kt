@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val getMovieDetailUseCase: GetMoviesDetailsUseCase,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _state = mutableStateOf(DetailsState())
@@ -21,7 +21,7 @@ class DetailsViewModel @Inject constructor(
 
     init {
         val movieIdString = savedStateHandle.get<String>("movieId")
-        //якшо не нуль то викликажмо сторінку
+        //if not null -> load the movie details
         if (movieIdString != null) {
             getMovie(movieIdString.toInt())
         }

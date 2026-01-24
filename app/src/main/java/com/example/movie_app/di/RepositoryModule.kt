@@ -8,7 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-//зв’язуємо інтерфейс MovieRepository з його реалізацією MovieRepositoryImpl -> можна інжектити movieRepository у useCase
+//bind the MovieRepository interface to its implementation MovieRepositoryImpl -> allows injecting movieRepository into a useCase
+@Suppress("unused")//make warning ignored todo: check why IDE thinks this class is unused
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {

@@ -1,14 +1,10 @@
 package com.example.movie_app.presentation.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkBack,
@@ -33,7 +29,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun Movie_appTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -41,7 +36,7 @@ fun Movie_appTheme(
         else -> LightColorScheme
     }
 
-    //todo побавитись із статус баром
+    //todo: experiment with the status bar
 
     MaterialTheme(
         colorScheme = colorScheme,

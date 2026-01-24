@@ -1,5 +1,6 @@
 package com.example.movie_app.presentation.screens.details
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 
+//ignore warning for default locale formatting
+@SuppressLint("DefaultLocale")
 @Composable
 fun DetailsScreen(
     onBackClick: () -> Unit,
@@ -34,17 +37,17 @@ fun DetailsScreen(
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
-        // якщо є дані про фільм - малюємо їх
+        //if movie data is available we display it
         state.movie?.let { movie ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState()) // додаємо скрол
+                    .verticalScroll(rememberScrollState()) //add scroll
             ) {
 
                 Box(modifier = Modifier.height(250.dp).fillMaxWidth()) {
                     AsyncImage(
-                        model = movie.bigImageUrl ?: movie.imageUrl, // якщо великої нема то беремо малу
+                        model = movie.bigImageUrl ?: movie.imageUrl,//use small image if big one is not available
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
@@ -52,7 +55,7 @@ fun DetailsScreen(
 
                 }
 
-                //інфа
+                //information
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text(
                         text = movie.title,
@@ -64,7 +67,7 @@ fun DetailsScreen(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = "⭐ ${String.format("%.1f",movie.rating)}/10",
-                            color = Color(0xFFFFC107), // жовтий колір
+                            color = Color(0xFFFFC107), //yellow color
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp
                         )
@@ -77,23 +80,26 @@ fun DetailsScreen(
                     }
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    Text(
-                        text = "Короткий опис:",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = movie.overview,
-                        style = MaterialTheme.typography.bodyLarge,
-                        lineHeight = 24.sp,
-                        textAlign = TextAlign.Justify
-                    )
+                    if(movie.overview != ""){
+                        Text(
+                            text = "Короткий опис:",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = movie.overview,
+                            style = MaterialTheme.typography.bodyLarge,
+                            lineHeight = 24.sp,
+                            textAlign = TextAlign.Justify
+                        )
+                    }
+
                 }
             }
         }
 
-        // кнопівка назад
+        //back button
         IconButton(
             onClick = onBackClick,
             modifier = Modifier
@@ -108,7 +114,7 @@ fun DetailsScreen(
             )
         }
 
-        // лоадер
+        //loader
         if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
@@ -116,16 +122,16 @@ fun DetailsScreen(
             )
         }
 
-        // обробка помилки
+        //error handling
         if (state.error != null) {
-            val errorMessage = state.error!!
+            val errorMessage = state.error
 
-            // виводимо помилку в консоль (спрацьовує один раз)
+
             LaunchedEffect(errorMessage) {
                 Log.e("MainScreenError", "Сталася помилка: $errorMessage")
             }
 
-            // плашка знизу екрану
+
             Surface(
                 color = MaterialTheme.colorScheme.onPrimary,
                 contentColor = MaterialTheme.colorScheme.primary,

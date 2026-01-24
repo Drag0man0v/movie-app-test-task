@@ -19,16 +19,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movie_app.presentation.common.MovieItem
 
-@OptIn(ExperimentalMaterial3Api::class)//topAppBar ще experimental
+@OptIn(ExperimentalMaterial3Api::class)//topAppBar is still experimental
 @Composable
 fun MainScreen(
-    // hilt автоматично знайде і створить VModel
+    //Hilt will automatically find and create the ViewModel
     viewModel: MainViewModel = hiltViewModel(),
     isDarkTheme: Boolean,
     onThemeChange: () -> Unit,
     onNavigate: (Int) -> Unit
 ) {
-    // підписуємося на stateFlow -> зміна в VM автоматично оновить юайку
+    //subscribe to stateFlow -> changes in VM automatically update the UI
     val state by viewModel.state.collectAsState()
 
     Scaffold(
@@ -61,14 +61,14 @@ fun MainScreen(
                 .padding(paddingValues)
         ) {
 
-            // список фільмів
+            //list of movies
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp), // відступи від карток до країв
-                verticalArrangement = Arrangement.spacedBy(16.dp) // відстань між картками
-            ) {
+                contentPadding = PaddingValues(16.dp), //padding from cards to edges
+                verticalArrangement = Arrangement.spacedBy(16.dp) //spacing between cards
+            ){
                 itemsIndexed(state.movies) { index, item ->
-                    // якщо дійшли до передостаннього елемента то грузимо некст сторінку
+                    //if reached the second to last item -> load the next page
                     if (index >= state.movies.lastIndex - 1 && !state.end && !state.isLoading) {
                         viewModel.loadNextPage()
                     }
@@ -79,7 +79,7 @@ fun MainScreen(
                     )
                 }
 
-                //крутилка із завантаженням. появляється коли йде запит і коли він не перший
+                //loading spinner that appears when a request is in progress and it's not the first load
                 item {
                     if (state.isLoading && state.movies.isNotEmpty()) {
                         Box(
@@ -94,7 +94,7 @@ fun MainScreen(
                 }
             }
 
-            // показує шо йде загрузка при першому запуску
+            //shows loading indicator on the first launch
             if (state.isLoading && state.movies.isEmpty()) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
@@ -102,16 +102,16 @@ fun MainScreen(
                 )
             }
 
-            // обробка помилки
+            //error
             if (state.error != null) {
                 val errorMessage = state.error!!
 
-                // виводимо помилку в консоль (спрацьовує один раз)
+                //log the error in console (runs once)
                 LaunchedEffect(errorMessage) {
                     Log.e("MainScreenError", "Сталася помилка: $errorMessage")
                 }
 
-                // плашка знизу екрану
+                //bottom screen banner
                 Surface(
                     color = MaterialTheme.colorScheme.onPrimary,
                     contentColor = MaterialTheme.colorScheme.primary,

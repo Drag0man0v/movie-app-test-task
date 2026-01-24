@@ -18,16 +18,16 @@ import retrofit2.Retrofit
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Provides
+    @Provides//when someone needs OkHttpClient, this function will be called
     @Singleton
     fun provideHttpClient(): OkHttpClient {
-        //перехоплюємо кожен api запит і додаємо header
-        val interceptor = Interceptor { chain ->
+        //intercept each API request and add headers
+        val interceptor = Interceptor { chain -> //chain - current request
             val request = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${BuildConfig.API_KEY}")
                 .addHeader("accept", "application/json")
-                .build()
-            chain.proceed(request)
+                .build()//creates a new request
+            chain.proceed(request)//pass the request further (to next interceptors or execute the request)
         }
         return OkHttpClient.Builder()
             .addInterceptor(interceptor)
@@ -37,12 +37,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideMovieApi(client: OkHttpClient): MovieApi {
-        val json = Json { ignoreUnknownKeys = true }
+        val json = Json { ignoreUnknownKeys = true }//JSON configuration
         return Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/")
-            .client(client)
+            .baseUrl("https://api.themoviedb.org/3/")//all requests start with this URL
+            .client(client)//sets the instance that will execute the requests
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
-            .create(MovieApi::class.java)
+            .create(MovieApi::class.java)//generates implementation of MovieApi interface
     }
 }

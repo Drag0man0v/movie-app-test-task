@@ -27,38 +27,38 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            // контролер навігації
+            //navigation controller
             val navController = rememberNavController()
 
-            // стан теми
-            var isDarkTheme = remember { mutableStateOf(true) }
+            //theme state
+            val isDarkTheme = remember { mutableStateOf(true) }
 
             Movie_appTheme(darkTheme = isDarkTheme.value) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // налаштовуємо маршрути (NavHost)
+                    //set up navigation routes (NavHost))
                     NavHost(
                         navController = navController,
-                        startDestination = "movie_list" // стартовий екран
+                        startDestination = "movie_list" //starting screen
                     ) {
 
-                        // 1 екран
+                        //first screen
                         composable(route = "movie_list") {
                             MainScreen(
                                 isDarkTheme = isDarkTheme.value,
                                 onThemeChange = {
                                     isDarkTheme.value = !isDarkTheme.value
                                 },
-                                //обробка кліку для переходу
+                                //click for navigation
                                 onNavigate = { movieId ->
                                     navController.navigate("details/$movieId")
                                 }
                             )
                         }
 
-                        // 2 екран
+                        //second screen
                         composable(route = "details/{movieId}",
                             arguments = listOf(
                                 navArgument("movieId") { type = NavType.StringType }
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             DetailsScreen(
                                 onBackClick = {
-                                    navController.popBackStack() // повернення на попередній екран
+                                    navController.popBackStack() //return to previous screen
                                 }
                             )
                         }

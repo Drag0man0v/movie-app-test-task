@@ -13,5 +13,5 @@ data class MovieDto(
     @SerialName("backdrop_path") val bigImagePath: String?,
     @SerialName("release_date") val date: String,
     @SerialName("vote_average") val rating: Double
-    //todo як буде час, то треба додати ше поле типу List із жанрами
+    //todo: add another field like a List for genres
 )
